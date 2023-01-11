@@ -5,7 +5,10 @@ const app = express()
 
 // Routing
 app.use('/', usuarioRoutes)
-
+//habilitar pug
+//usamos view engie y especificamos que es pug
+app.set('view engine', 'pug')
+app.set('views','./views')
 
 //definir un puerto y arrancar el proyecto.
 const port = 3000;
