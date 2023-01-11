@@ -7,8 +7,8 @@ routes.get('/', function (req, res) {
     res.json({msg:'Hola mundo en express'})
 });
 
-routes.get('/nosotros', function (req, res) {
-    res.send('informacion nosotros')
+routes.post('/', function (req, res) {
+    res.json({msg:'Hola mundo en express aaaaaaa'})
 });
 
 
