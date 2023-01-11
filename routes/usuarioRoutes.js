@@ -3,8 +3,9 @@ import express from 'express';
 const routes = express.Router();
 
 // Routing
-routes.get('/', function (req, res) {
-    res.json({msg:'Hola mundo en express'})
+routes.get('/login',(req, res) => {
+    //funcion render toma la ubicacion de donde se encuentra la vista y la muestra.
+    res.render('auth/login')
 });
 
 
