@@ -5,7 +5,7 @@ const app = express()
 
 // Routing
 app.get('/', function (req, res) {
-    res.res('Hola mundo en express')
+    res.json({msg:'Hola mundo en express'})
 });
 
 
