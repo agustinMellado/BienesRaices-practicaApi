@@ -8,9 +8,14 @@ const app = express()
 //usamos view engie y especificamos que es pug
 app.set('view engine', 'pug')
 app.set('views','./views')
+//carpeta publica
+app.use(express.static('public'))
+
 
 // Routing
 app.use('/auth', usuarioRoutes)
+
+
 
 //definir un puerto y arrancar el proyecto.
 const port = 3000;
