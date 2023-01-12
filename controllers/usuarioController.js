@@ -1,13 +1,16 @@
 
 
 const formularioLogin = (req, res) => {
+    //funcion para representar las vistas
     res.render('auth/login', {
     })
 }
 
 const formularioRegistro = (req, res) => {
+    //funcion para representar las vistas
+
     res.render('auth/registro', {
-        
+
     })
 }
 
