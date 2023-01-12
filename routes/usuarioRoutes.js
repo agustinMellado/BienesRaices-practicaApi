@@ -1,10 +1,11 @@
 import express from 'express';
-import { formularioLogin } from '../controllers/usuarioController.js';
+import { formularioLogin, formularioRegister } from '../controllers/usuarioController.js';
 //inicializo la constante router
 const routes = express.Router();
 
 // Routing
 routes.get('/login', formularioLogin);
+routes.get('/registro', formularioRegistro);
 
 
 

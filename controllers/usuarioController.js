@@ -13,5 +13,5 @@ const formularioRegistro = (req, res) => {
 
 //export nombrado para multiples exportaciones.
 export {
-    formularioLogin
+    formularioLogin, formularioRegistro
 }
