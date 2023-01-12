@@ -1,12 +1,10 @@
 import express from 'express';
+import { formularioLogin } from '../controllers/usuarioController.js';
 //inicializo la constante router
 const routes = express.Router();
 
 // Routing
-routes.get('/login',(req, res) => {
-    //funcion render toma la ubicacion de donde se encuentra la vista y la muestra.
-    res.render('auth/login')
-});
+routes.get('/login', formularioLogin);
 
 
 

@@ -6,6 +6,7 @@ const formularioLogin = (req, res) => {
     })
 }
 
-export{
+//export nombrado para multiples exportaciones.
+export {
     formularioLogin
 }
