@@ -9,8 +9,8 @@ const formularioLogin = (req, res) => {
 const formularioRegistro = (req, res) => {
     //funcion para representar las vistas
 
-    res.render('auth/registro', {
-
+    res.render('auth/registro', {//informacion para pasar a esa vista
+        pagina: 'Crear cuenta'
     })
 }
 
