@@ -1,11 +1,11 @@
 import Sequelize from "sequelize";
 
-const db = new Sequelize('bienesraices_node_mvc', 'root', '', {
+const db = new Sequelize('bienesraices_node_mvc', 'root', 'root1941', {
     host: 'localhost',
     port: 3306, //Puerto por defecto para mysql
     dialect: 'mysql',
     define: {
-        timestamp: true
+        timestamps: true,
     },
     //Configura como sera el comportamiento para conexiones nuevas o existentes.
     pool: {
