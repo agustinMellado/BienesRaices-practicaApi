@@ -16,6 +16,10 @@ const formularioRegistro = (req, res) => {
     })
 }
 
+const registrar=(req, res) => {
+    console.log('registrando........')
+}
+
 const formularioRecuperarPassword = (req, res) => {
     //funcion para representar las vistas
 
@@ -23,7 +27,9 @@ const formularioRecuperarPassword = (req, res) => {
         pagina: 'Recuperar contraseña'
     })
 }
+
+
 //export nombrado para multiples exportaciones.
 export {
-    formularioLogin, formularioRegistro, formularioRecuperarPassword
+    formularioLogin, formularioRegistro, registrar,formularioRecuperarPassword
 }
