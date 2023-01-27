@@ -17,7 +17,8 @@ const formularioRegistro = (req, res) => {
 }
 
 const registrar=(req, res) => {
-    console.log('registrando........')
+    //para leer la informacion de un form 'req.body'
+    console.log(req.body)
 }
 
 const formularioRecuperarPassword = (req, res) => {

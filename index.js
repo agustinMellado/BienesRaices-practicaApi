@@ -4,6 +4,9 @@ import db from './config/db.js';
 //Crear la app
 const app = express()
 
+//habilitar lecturas de datos de formularios
+app.use(express.urlencoded({extended:true}))
+
 //Conexion a la base de datos
 //aplicamos try /catch en caso que se encuentre errores.
 try{
