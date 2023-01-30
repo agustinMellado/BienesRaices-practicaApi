@@ -1,3 +1,4 @@
+import { check, validationResult } from 'express-validator'
 import Usuario from '../models/Usuario.js'
 
 const formularioLogin = (req, res) => {
@@ -17,7 +18,13 @@ const formularioRegistro = (req, res) => {
 }
 
 const registrar= async (req, res) => {
-    //para leer la informacion de un form 'req.body'
+    //validacion
+    await check('nombre').notEmpty().withMessage('El nombre no puede ir vacio').run(req)//para que los campos no esten vacios.
+    
+    let resultado =validationResult(req)
+
+    res.json(resultado.array());
+    //para leer la informacion de un form 'req.body'.
     const usuario= await Usuario.create(req.body)//Crea un nuevo usuario con la informacion dada
     res.json(usuario)// retorna con informacion bd
 }   
