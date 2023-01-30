@@ -1,4 +1,4 @@
-
+import Usuario from '../models/Usuario.js'
 
 const formularioLogin = (req, res) => {
     //funcion para representar las vistas
@@ -16,10 +16,11 @@ const formularioRegistro = (req, res) => {
     })
 }
 
-const registrar=(req, res) => {
+const registrar= async (req, res) => {
     //para leer la informacion de un form 'req.body'
-    console.log(req.body)
-}
+    const usuario= await Usuario.create(req.body)//Crea un nuevo usuario con la informacion dada
+    res.json(usuario)// retorna con informacion bd
+}   
 
 const formularioRecuperarPassword = (req, res) => {
     //funcion para representar las vistas

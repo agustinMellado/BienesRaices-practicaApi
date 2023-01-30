@@ -11,6 +11,7 @@ app.use(express.urlencoded({extended:true}))
 //aplicamos try /catch en caso que se encuentre errores.
 try{
     await db.authenticate();
+    db.sync();//sincroniza con la bd
     console.log('Conexion correcta a la base de datos')
 }catch(error){
     console.log(error)
