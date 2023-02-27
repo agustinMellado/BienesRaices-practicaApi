@@ -25,6 +25,18 @@ const registrar = async (req, res) => {
     await check('repetir_password').equals('password').withMessage('Las contraseñas no coinciden').run(req)// verifica que las contrasenias coincidan.
 
     let resultado = validationResult(req)
+
+    //verifica que el resultado este vacio
+    if(!resultado.isEmpty()){
+
+        //errores
+        return res.render('auth/registro',{
+            pagina: 'crear cuenta'
+        })
+    }
+
+
+
     //Verifica que resultado no este vacio.
     res.json(resultado.array());
     //para leer la informacion de un form 'req.body'.
