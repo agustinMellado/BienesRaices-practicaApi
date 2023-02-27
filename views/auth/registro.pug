@@ -11,7 +11,7 @@ block contenido
         if errores
             div(class='max-w-md mx-auto my-10')
                 each error in errores
-                    p.bg-red-600.text-white.uppercase.text-xs.text-center.p-2.mb-1.font-bold= error
+                    p.bg-red-600.text-white.uppercase.text-xs.text-center.p-2.mb-1.font-bold= error.msg
 
         <!- campos de formulario->
         .mt-8.mx-auto.max-w-md
