@@ -31,14 +31,13 @@ const registrar = async (req, res) => {
 
         //errores
         return res.render('auth/registro',{
-            pagina: 'crear cuenta'
+            pagina: 'crear cuenta',
+            errores: resultado.array()//muestra errores
         })
     }
 
 
 
-    //Verifica que resultado no este vacio.
-    res.json(resultado.array());
     //para leer la informacion de un form 'req.body'.
     const usuario = await Usuario.create(req.body)//Crea un nuevo usuario con la informacion dada
     res.json(usuario)// retorna con informacion bd
