@@ -22,29 +22,39 @@ const registrar = async (req, res) => {
     await check('nombre').notEmpty().withMessage('El nombre no puede ir vacio').run(req)//para que los campos no esten vacios.
     await check('email').isEmail().withMessage('Ingrese un email valido').run(req)//que sean emails validos.
     await check('password').isLength({ min: 8 }).withMessage('La contraseña debe tener al menos 8 caracteres').run(req)//un minimo necesario de contrasenias
-    await check('repetir_password').equals('password').withMessage('Las contraseñas no coinciden').run(req)// verifica que las contrasenias coincidan.
+    await check('repetir_password').equals(req.body.password).withMessage('Las contraseñas no coinciden').run(req)// verifica que las contrasenias coincidan.
 
     let resultado = validationResult(req)
 
     //verifica que el resultado este vacio
-    if(!resultado.isEmpty()){
+    if (!resultado.isEmpty()) {
 
         //errores
-        return res.render('auth/registro',{
-            pagina: 'crear cuenta',
+        return res.render('auth/registro', {
+            pagina: 'Crear Cuenta',
             errores: resultado.array(),//muestra errores
+            usuario: {
+                nombre: req.body.nombre,
+                email: req.body.email
+            }
+        })
+    }
+    //extraer los datos
+    const {nombre, email, password} = req.body
+    //verifica que el usuario no este duplicado.
+    const existeUsuario = await Usuario.findOne({ where: { email: email } })
+    if(existeUsuario){
+        return res.render('auth/registro',{
+            pagina: 'Crear Cuenta',
+            errores:[{msg:'EL USUARIO YA ESTA REGISTRADO.'}],
             usuario:{
                 nombre: req.body.nombre,
                 email: req.body.email
             }
         })
     }
+    return;
 
-
-
-    //para leer la informacion de un form 'req.body'.
-    const usuario = await Usuario.create(req.body)//Crea un nuevo usuario con la informacion dada
-    res.json(usuario)// retorna con informacion bd
 }
 
 const formularioRecuperarPassword = (req, res) => {
