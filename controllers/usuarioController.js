@@ -1,7 +1,7 @@
 import { check, validationResult } from 'express-validator'
 import Usuario from '../models/Usuario.js'
 import { generarId } from '../helpers/tokens.js'
-import {emailRegistro} from '../helpers/emails.js'
+import { emailRegistro } from '../helpers/emails.js'
 
 const formularioLogin = (req, res) => {
     //funcion para representar las vistas
@@ -42,21 +42,21 @@ const registrar = async (req, res) => {
         })
     }
     //extraer los datos
-    const {nombre, email, password} = req.body
+    const { nombre, email, password } = req.body
     //verifica que el usuario no este duplicado.
     const existeUsuario = await Usuario.findOne({ where: { email: email } })
-    if(existeUsuario){
-        return res.render('auth/registro',{
+    if (existeUsuario) {
+        return res.render('auth/registro', {
             pagina: 'Crear Cuenta',
-            errores:[{msg:'EL USUARIO YA ESTA REGISTRADO.'}],
-            usuario:{
+            errores: [{ msg: 'EL USUARIO YA ESTA REGISTRADO.' }],
+            usuario: {
                 nombre: req.body.nombre,
                 email: req.body.email
             }
         })
     }
     //Almacenar un usuario
-    const usuario= await Usuario.create({
+    const usuario = await Usuario.create({
         nombre,
         email,
         password,
@@ -70,13 +70,19 @@ const registrar = async (req, res) => {
     })
 
     //Mostrar mensaje de confirmacion
-    res.render('template/mensaje',{
+    res.render('template/mensaje', {
         pagina: 'Crear Cuenta',
         mensaje: 'Hemos enviado un email de confirmacion, presiona en el enlace.'
     })
 
-}
 
+
+}
+//Funcion que comprueba una cuenta
+const confirmar = (req, res) => {
+    const {token}= req.params;
+    console.log(token)
+}
 const formularioRecuperarPassword = (req, res) => {
     //funcion para representar las vistas
 
@@ -88,5 +94,5 @@ const formularioRecuperarPassword = (req, res) => {
 
 //export nombrado para multiples exportaciones.
 export {
-    formularioLogin, formularioRegistro, registrar, formularioRecuperarPassword
+    formularioLogin, formularioRegistro, registrar, confirmar, formularioRecuperarPassword
 }
