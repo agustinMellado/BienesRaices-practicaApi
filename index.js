@@ -31,7 +31,7 @@ app.use('/auth', usuarioRoutes)
 
 
 //definir un puerto y arrancar el proyecto.
-const port = 3000;
+const port = process.env.PORT || 3000;//TOMA EL PUERTO ASIGNADO O POR DEFECTO 3000
 //conecto la app al puerto.
 app.listen(port, () => {
     console.log(`el servidor esta funcionando en el puerto ${port}`)
