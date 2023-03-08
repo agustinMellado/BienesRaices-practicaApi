@@ -16,7 +16,7 @@ const formularioRegistro = (req, res) => {
 
     res.render('auth/registro', {//informacion para pasar a esa vista
         pagina: 'Crear Cuenta',
-        csrfToken:req.csrfToken()//cada vez que se visite el formulario se genera un token.
+        csrfToken: req.csrfToken()//cada vez que se visite el formulario se genera un token.
     })
 }
 
@@ -35,13 +35,14 @@ const registrar = async (req, res) => {
         //errores
         return res.render('auth/registro', {
             pagina: 'Crear Cuenta',
-            csrfToken:req.csrfToken(),//cada vez que se visite el formulario se genera un token.
+            csrfToken: req.csrfToken(),//cada vez que se visite el formulario se genera un token.
             errores: resultado.array(),//muestra errores
+            //autocompletado de los campos
             usuario: {
                 nombre: req.body.nombre,
                 email: req.body.email
             },
-            
+
 
         })
     }
@@ -52,7 +53,7 @@ const registrar = async (req, res) => {
     if (existeUsuario) {
         return res.render('auth/registro', {
             pagina: 'Crear Cuenta',
-            csrfToken:req.csrfToken(),//cada vez que se visite el formulario se genera un token.
+            csrfToken: req.csrfToken(),//cada vez que se visite el formulario se genera un token.
             errores: [{ msg: 'EL USUARIO YA ESTA REGISTRADO.' }],
             usuario: {
                 nombre: req.body.nombre,
@@ -83,41 +84,59 @@ const registrar = async (req, res) => {
 
 
 }
-//Funcion que comprueba una cuenta
+//Funcion que comprueba una cuenta 
 const confirmar = async (req, res) => {
-    const {token}= req.params;
+    const { token } = req.params;
     console.log(token)
-    //verificar si el token es correcto.
-    const usuario=  await Usuario.findOne({where: {token}})
+    //verificar si el token es valido.
+    const usuario = await Usuario.findOne({ where: { token } })
     //si no existe el usuario
-    if(!usuario){
+    if (!usuario) {
         return res.render('auth/confirmar-cuenta', {
-            pagina:'Error al confirmar tu cuenta',
-            mensaje:'Hubo un error al confirmar tu cuenta, intenta de nuevo.',
-            error:true
+            pagina: 'Error al confirmar tu cuenta',
+            mensaje: 'Hubo un error al confirmar tu cuenta, intenta de nuevo.',
+            error: true
         })
 
     }
 
     //confirmar la cuenta.
-    usuario.token=null;
-    usuario.confirmado=true;
+    usuario.token = null;
+    usuario.confirmado = true;
     await usuario.save();
     res.render('auth/confirmar-cuenta', {
-        pagina:'Cuenta Confimada',
-        mensaje:'La cuenta se registro con exito!'
+        pagina: 'Cuenta Confimada',
+        mensaje: 'La cuenta se registro con exito!'
     })
 }
 const formularioRecuperarPassword = (req, res) => {
     //funcion para representar las vistas
-
     res.render('auth/recuperar-password', {//informacion para pasar a esa vista
-        pagina: 'Recuperar contraseña'
+        pagina: 'Recuperar contraseña',
+        csrfToken: req.csrfToken()//cada vez que se visite el formulario se genera un token.
+
     })
+}
+const resetPassword = async (req, res) => {//solamente va a validar el email, Para identificar al usuario determinado.
+    //validacion
+    await check('email').isEmail().withMessage('Ingrese un email valido').run(req)//que sean emails validos.
+
+    let resultado = validationResult(req)
+
+    //verifica que el resultado este vacio
+    if (!resultado.isEmpty()) {
+
+        //errores
+        return res.render('auth/recuperar-password', {
+            pagina: 'Recuperar Acceso a BienesRaices',
+            csrfToken: req.csrfToken(),//cada vez que se visite el formulario se genera un token.
+            errores: resultado.array(),//muestra errores 
+        })
+    }
 }
 
 
 //export nombrado para multiples exportaciones.
 export {
-    formularioLogin, formularioRegistro, registrar, confirmar, formularioRecuperarPassword
+    formularioLogin, formularioRegistro, registrar, confirmar, formularioRecuperarPassword, resetPassword
 }
