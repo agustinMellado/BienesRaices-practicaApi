@@ -133,6 +133,12 @@ const resetPassword = async (req, res) => {//solamente va a validar el email, Pa
             errores: resultado.array(),//muestra errores 
         })
     }
+    // Buscar el usuario
+    const {email}= req.body
+    //buscamos en la lista el email.
+    const usuario= await Usuario.findOne({where:{email}})
+    console.log(usuario)
+    
 }
 
 
