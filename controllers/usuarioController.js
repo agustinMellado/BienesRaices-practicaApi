@@ -1,7 +1,7 @@
 import { check, validationResult } from 'express-validator'
 import Usuario from '../models/Usuario.js'
 import { generarId } from '../helpers/tokens.js'
-import { emailRegistro } from '../helpers/emails.js'
+import { emailRegistro, emailRecuperarPassword } from '../helpers/emails.js'
 
 const formularioLogin = (req, res) => {
     //funcion para representar las vistas
@@ -134,23 +134,39 @@ const resetPassword = async (req, res) => {//solamente va a validar el email, Pa
         })
     }
     // Buscar el usuario
-    const {email}= req.body
+    const { email } = req.body
     //buscamos en la lista el email.
-    const usuario= await Usuario.findOne({where:{email}})
+    const usuario = await Usuario.findOne({ where: { email } })
     if (!usuario) {
 
         //errores
         return res.render('auth/recuperar-password', {
             pagina: 'Recuperar Acceso a BienesRaices',
             csrfToken: req.csrfToken(),//cada vez que se visite el formulario se genera un token.
-            errores: [{msg: 'El Email no pertenece a ningun usuario.'}],//muestra errores 
+            errores: [{ msg: 'El Email no pertenece a ningun usuario.' }],//muestra errores 
         })
     }
-    
+    //generar nuevo token y enviar al email.
+    usuario.token = generarId();
+    await usuario.save()
+    //Enviar un email de recuperacion
+    emailRecuperarPassword({
+        email: usuario.email,
+        nombre: usuario.nombre,
+        token: usuario.token
+    })
+    //renderizar un mensaje.
+    //Mostrar mensaje de confirmacion
+    res.render('template/mensaje', {
+        pagina: 'Reestablece tu Contraseña ',
+        mensaje: 'Hemos enviado un email con las instrucciones'
+    })
 }
+const comprobarToken = (req, res, next) => {next(); }
 
+const nuevoPassword = (req, res) => { }
 
 //export nombrado para multiples exportaciones.
 export {
-    formularioLogin, formularioRegistro, registrar, confirmar, formularioRecuperarPassword, resetPassword
+    formularioLogin, formularioRegistro, registrar, confirmar, formularioRecuperarPassword, resetPassword, comprobarToken, nuevoPassword
 }

@@ -1,5 +1,5 @@
 import express from 'express';
-import { formularioLogin, formularioRegistro, registrar,confirmar, formularioRecuperarPassword,resetPassword} from '../controllers/usuarioController.js';
+import { formularioLogin, formularioRegistro, registrar,confirmar, formularioRecuperarPassword,resetPassword,comprobarToken,nuevoPassword} from '../controllers/usuarioController.js';
 //inicializo la constante router
 const routes = express.Router();
 
@@ -13,7 +13,9 @@ routes.get('/confirmar/:token',confirmar);//ruta para confirmacion de email.
 routes.get('/recuperar-password',formularioRecuperarPassword);
 routes.post('/recuperar-password',resetPassword);
 
-
+//almacena el nuevo password
+routes.get('/recuperar-password/:token', comprobarToken);
+routes.post('/recuperar-password/:token', nuevoPassword);
 
 
 //zona de exportacion
