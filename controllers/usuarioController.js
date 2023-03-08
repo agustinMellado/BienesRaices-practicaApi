@@ -137,7 +137,15 @@ const resetPassword = async (req, res) => {//solamente va a validar el email, Pa
     const {email}= req.body
     //buscamos en la lista el email.
     const usuario= await Usuario.findOne({where:{email}})
-    console.log(usuario)
+    if (!usuario) {
+
+        //errores
+        return res.render('auth/recuperar-password', {
+            pagina: 'Recuperar Acceso a BienesRaices',
+            csrfToken: req.csrfToken(),//cada vez que se visite el formulario se genera un token.
+            errores: [{msg: 'El Email no pertenece a ningun usuario.'}],//muestra errores 
+        })
+    }
     
 }
 
