@@ -162,7 +162,23 @@ const resetPassword = async (req, res) => {//solamente va a validar el email, Pa
         mensaje: 'Hemos enviado un email con las instrucciones'
     })
 }
-const comprobarToken = (req, res, next) => {next(); }
+const comprobarToken = async(req, res) => {
+    const {token}=req.params;
+    //buscamos el usuario y filtramos por el token, para encontrar el que desea modificar su token.
+    const usuario = await Usuario.findOne({where: {token}})
+    //si no existe un usuario.
+    if(!usuario){
+        //errores
+        return res.render('auth/confirmar-cuenta', {
+            pagina: 'Reestablece tu Contraseña',
+            mensaje: 'Hubo un error al validar tu informacion, intenta de nuevo.',
+            error: true
+        })
+    }
+    //Si es correcto, mostramos un formulario.
+    console.log(usuario)
+
+}
 
 const nuevoPassword = (req, res) => { }
 
