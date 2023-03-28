@@ -184,8 +184,29 @@ const comprobarToken = async(req, res) => {
 
 }
 
-const nuevoPassword = (req, res) => {
-    console.log('Guardando contraseña...')
+const nuevoPassword =async (req, res) => {
+    //validar nuevo password
+    await check('password').isLength({ min: 8 }).withMessage('La contraseña debe tener al menos 8 caracteres').run(req)//un minimo necesario de contrasenias
+    await check('repetir_password').equals(req.body.password).withMessage('Las contraseñas no coinciden').run(req)// verifica que las contrasenias coincidan.
+    let resultado = validationResult(req)
+
+    //verifica que el resultado este vacio
+    if (!resultado.isEmpty()) {
+
+        //errores
+        return res.render('auth/restaurar-password', {
+            pagina: 'Reestablece tu Contrasña',
+            csrfToken: req.csrfToken(),//cada vez que se visite el formulario se genera un token.
+            errores: resultado.array(),//muestra errores
+        
+
+
+        })
+    }
+
+    //Identificar quien hace el cambio
+
+    //hashear el nuevo password
     }
 
 //export nombrado para multiples exportaciones.
