@@ -1,4 +1,5 @@
 import { check, validationResult } from 'express-validator'
+import bcrypt from "bcrypt"
 import Usuario from '../models/Usuario.js'
 import { generarId } from '../helpers/tokens.js'
 import { emailRegistro, emailRecuperarPassword } from '../helpers/emails.js'
@@ -162,12 +163,12 @@ const resetPassword = async (req, res) => {//solamente va a validar el email, Pa
         mensaje: 'Hemos enviado un email con las instrucciones'
     })
 }
-const comprobarToken = async(req, res) => {
-    const {token}=req.params;
+const comprobarToken = async (req, res) => {
+    const { token } = req.params;
     //buscamos el usuario y filtramos por el token, para encontrar el que desea modificar su token.
-    const usuario = await Usuario.findOne({where: {token}})
+    const usuario = await Usuario.findOne({ where: { token } })
     //si no existe un usuario.
-    if(!usuario){
+    if (!usuario) {
         //errores
         return res.render('auth/confirmar-cuenta', {
             pagina: 'Reestablece tu Contraseña',
@@ -176,15 +177,15 @@ const comprobarToken = async(req, res) => {
         })
     }
     //Si es correcto, mostramos un formulario.
-    res.render('auth/restaurar-password',{
-        pagina:'Restablece tu Contraseña',
+    res.render('auth/restaurar-password', {
+        pagina: 'Restablece tu Contraseña',
         csrfToken: req.csrfToken(),//cada vez que se visite el formulario se genera un token.
 
     })
 
 }
 
-const nuevoPassword =async (req, res) => {
+const nuevoPassword = async (req, res) => {
     //validar nuevo password
     await check('password').isLength({ min: 8 }).withMessage('La contraseña debe tener al menos 8 caracteres').run(req)//un minimo necesario de contrasenias
     await check('repetir_password').equals(req.body.password).withMessage('Las contraseñas no coinciden').run(req)// verifica que las contrasenias coincidan.
@@ -198,19 +199,21 @@ const nuevoPassword =async (req, res) => {
             pagina: 'Reestablece tu Contrasña',
             csrfToken: req.csrfToken(),//cada vez que se visite el formulario se genera un token.
             errores: resultado.array(),//muestra errores
-        
+
 
 
         })
     }
 
-    const {token}=req.params
-    const{ password}= req.body
+    const { token } = req.params
+    const { password } = req.body//obtenemos el nuevo password ingresado en el body para luego usarlo en el hash
     //Identificar quien hace el cambio
-    const usuario= await Usuario.findOne({where:{token}})
+    const usuario = await Usuario.findOne({ where: { token } })
     console.log(usuario)
     //hashear el nuevo password
-    }
+    const salt = await bcrypt.genSalt(10)//encriptamos la password
+    usuario.password = await bcrypt.hash(password, salt);
+}
 
 //export nombrado para multiples exportaciones.
 export {
