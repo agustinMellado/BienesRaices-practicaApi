@@ -204,8 +204,11 @@ const nuevoPassword =async (req, res) => {
         })
     }
 
+    const {token}=req.params
+    const{ password}= req.body
     //Identificar quien hace el cambio
-
+    const usuario= await Usuario.findOne({where:{token}})
+    console.log(usuario)
     //hashear el nuevo password
     }
 
