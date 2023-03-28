@@ -177,13 +177,16 @@ const comprobarToken = async(req, res) => {
     }
     //Si es correcto, mostramos un formulario.
     res.render('auth/restaurar-password',{
-        pagina:'Restablece tu Contraseña'
+        pagina:'Restablece tu Contraseña',
+        csrfToken: req.csrfToken(),//cada vez que se visite el formulario se genera un token.
 
     })
 
 }
 
-const nuevoPassword = (req, res) => { }
+const nuevoPassword = (req, res) => {
+    console.log('Guardando contraseña...')
+    }
 
 //export nombrado para multiples exportaciones.
 export {
