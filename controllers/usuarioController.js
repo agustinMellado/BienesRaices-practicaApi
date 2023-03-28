@@ -176,7 +176,10 @@ const comprobarToken = async(req, res) => {
         })
     }
     //Si es correcto, mostramos un formulario.
-    console.log(usuario)
+    res.render('auth/restaurar-password',{
+        pagina:'Restablece tu Contraseña'
+
+    })
 
 }
 
